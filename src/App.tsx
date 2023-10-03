@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import Button from './Button';
+import Input from './Input';
 
 function App() {
     const [total, setTotal] = useState(0);
+    const [data, setData] = useState('');
 
     function incrementar() {
         setTotal(total => total + 1);
@@ -19,6 +21,17 @@ function App() {
             >
                 Incrementar
             </Button>
+            {/* Exercício Input */}
+            <p>Início da Viagem: {data}</p>
+            <Input label="Nome" id="nome" />
+            <Input label="Email" id="email" type="email" />
+            <Input
+                value={data}
+                onChange={e => setData(e.currentTarget.value)}
+                label="Início da Viagem"
+                id="date"
+                type="date"
+            />
         </div>
     );
 }
