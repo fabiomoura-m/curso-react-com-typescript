@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import Button from './Button';
 import Input from './Input';
+import Checkbox from './Checkbox';
+
+// tipando caso o button recebesse o total e setTotal
+type ButtonExample = {
+    total: number;
+    setTotal: React.Dispatch<React.SetStateAction<number>>;
+};
 
 function App() {
     const [total, setTotal] = useState(0);
@@ -32,6 +39,8 @@ function App() {
                 id="date"
                 type="date"
             />
+            {/* Eventos */}
+            <Checkbox label="Termos e Condições" />
         </div>
     );
 }
