@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Button from './Button';
 import Input from './Input';
 import Checkbox from './Checkbox';
+import Exercicio from './exercicios/exercicioUseState/ExerciciouseState';
 
 // tipando caso o button recebesse o total e setTotal
 type ButtonExample = {
@@ -41,6 +42,9 @@ function App() {
             />
             {/* Eventos */}
             <Checkbox label="Termos e Condições" />
+            {/* Exercício useState */}
+            <p>Exercício useState</p>
+            <Exercicio />
         </div>
     );
 }
