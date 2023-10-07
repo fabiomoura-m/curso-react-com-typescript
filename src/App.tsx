@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from './Button';
 import Input from './Input';
 import Checkbox from './Checkbox';
 import Exercicio from './exercicios/exercicioUseState/ExerciciouseState';
 import videoSrc from './video.mp4';
+import useLocalStorage from './hooks/useLocalStorage';
 
 // tipando caso o button recebesse o total e setTotal
 type ButtonExample = {
@@ -45,6 +46,19 @@ function App() {
             await video.current.requestPictureInPicture();
         }
     }
+
+    const [volume, setVolume] = useLocalStorage('volume', '0');
+
+    useEffect(() => {
+        if (!video.current) return;
+
+        const volumeNumber = Number(volume);
+
+        // a propriedade video.current.volume aceita valores apenas de 0 a 1, se receber um valor maior que um quebra a aplicação.
+        if (volumeNumber >= 0 && volumeNumber <= 1) {
+            video.current.volume = volumeNumber;
+        }
+    }, [volume]);
 
     return (
         <div>
@@ -99,6 +113,13 @@ function App() {
                 onPlay={() => setPlaying(true)}
                 onPause={() => setPlaying(false)}
             ></video>
+            {/* CustomHook useLocalStorage */}
+            <div className="flex">
+                {volume}
+                <button onClick={() => setVolume('0')}>Volume 0</button>
+                <button onClick={() => setVolume('0.5')}>Volume 50%</button>
+                <button onClick={() => setVolume('1')}>Volume 100%</button>
+            </div>
         </div>
     );
 }
