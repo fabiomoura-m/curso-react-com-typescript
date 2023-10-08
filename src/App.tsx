@@ -5,6 +5,7 @@ import Checkbox from './Checkbox';
 import Exercicio from './exercicios/exercicioUseState/ExerciciouseState';
 import videoSrc from './video.mp4';
 import useLocalStorage from './hooks/useLocalStorage';
+import useFetch from './hooks/useFetch';
 
 // tipando caso o button recebesse o total e setTotal
 type ButtonExample = {
@@ -59,6 +60,27 @@ function App() {
             video.current.volume = volumeNumber;
         }
     }, [volume]);
+
+    // AULA HOOK useFETCH
+
+    type Produto = {
+        id: string;
+        nome: string;
+        preco: number;
+        quantidade: number;
+        descricao: string;
+        internacional: boolean;
+    };
+
+    const [id, setId] = useState('p001');
+
+    const produtos = useFetch<Produto[]>('https://data.origamid.dev/produtos');
+    const produto = useFetch<Produto>(
+        `https://data.origamid.dev/produtos/${id}`,
+        {
+            cache: 'force-cache'
+        }
+    );
 
     return (
         <div>
@@ -120,6 +142,34 @@ function App() {
                 <button onClick={() => setVolume('0.5')}>Volume 50%</button>
                 <button onClick={() => setVolume('1')}>Volume 100%</button>
             </div>
+            {/* useFetch */}
+            <h2>AULA UseFetch</h2>
+            <section className="flex">
+                <div>
+                    {produtos.data &&
+                        produtos.data.map(produto => (
+                            <button
+                                style={{ fontSize: '1rem' }}
+                                key={produto.id}
+                                onClick={() => setId(produto.id)}
+                            >
+                                {produto.id}
+                            </button>
+                        ))}
+                </div>
+                <div>
+                    {produto.loading && <div>Carregando...</div>}
+                    {produto.data && (
+                        <ul>
+                            <li>ID: {produto.data.id}</li>
+                            <li>Nome: {produto.data.nome}</li>
+                            <li>Descrição: {produto.data.descricao}</li>
+                            <li>Quantidade: {produto.data.quantidade}</li>
+                            <li>Preço: {produto.data.preco}</li>
+                        </ul>
+                    )}
+                </div>
+            </section>
         </div>
     );
 }
