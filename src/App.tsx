@@ -6,6 +6,8 @@ import Exercicio from './exercicios/exercicioUseState/ExerciciouseState';
 import videoSrc from './video.mp4';
 import useLocalStorage from './hooks/useLocalStorage';
 import useFetch from './hooks/useFetch';
+import { UiContextProvider } from './UiContext';
+import { Header } from './Header';
 
 // tipando caso o button recebesse o total e setTotal
 type ButtonExample = {
@@ -82,95 +84,103 @@ function App() {
         }
     );
 
+    // AULA useContext
+
     return (
-        <div>
-            <p>Total: {total}</p>
-            <Button
-                id="botao-principal"
-                className="btn"
-                onClick={incrementar}
-                tamanho={'1.25rem'}
-            >
-                Incrementar
-            </Button>
+        <UiContextProvider>
+            <div>
+                <p>Total: {total}</p>
+                <Button
+                    id="botao-principal"
+                    className="btn"
+                    onClick={incrementar}
+                    tamanho={'1.25rem'}
+                >
+                    Incrementar
+                </Button>
 
-            {/* Exercício Input */}
-            <p>Início da Viagem: {data}</p>
-            <Input label="Nome" id="nome" />
-            <Input label="Email" id="email" type="email" />
-            <Input
-                value={data}
-                onChange={e => setData(e.currentTarget.value)}
-                label="Início da Viagem"
-                id="date"
-                type="date"
-            />
+                {/* Exercício Input */}
+                <p>Início da Viagem: {data}</p>
+                <Input label="Nome" id="nome" />
+                <Input label="Email" id="email" type="email" />
+                <Input
+                    value={data}
+                    onChange={e => setData(e.currentTarget.value)}
+                    label="Início da Viagem"
+                    id="date"
+                    type="date"
+                />
 
-            {/* Eventos */}
-            <Checkbox label="Termos e Condições" />
+                {/* Eventos */}
+                <Checkbox label="Termos e Condições" />
 
-            {/* Exercício useState */}
-            <p>Exercício useState</p>
-            <Exercicio />
+                {/* Exercício useState */}
+                <p>Exercício useState</p>
+                <Exercicio />
 
-            {/* useRef */}
-            <div className="flex">
-                {playing ? (
-                    <button onClick={() => video.current?.pause()}>
-                        Pause
-                    </button>
-                ) : (
-                    <button onClick={() => video.current?.play()}>Play</button>
-                )}
-                <button onClick={forward}>+ 2s</button>
-                <button onClick={() => changePlayBackRate(1)}>1x</button>
-                <button onClick={() => changePlayBackRate(2)}>2x</button>
-                <button onClick={pictureInPicture}>PiP</button>
-                <button onClick={mute}>Mute</button>
-            </div>
-            <video
-                controls
-                ref={video}
-                src={videoSrc}
-                onPlay={() => setPlaying(true)}
-                onPause={() => setPlaying(false)}
-            ></video>
-            {/* CustomHook useLocalStorage */}
-            <div className="flex">
-                {volume}
-                <button onClick={() => setVolume('0')}>Volume 0</button>
-                <button onClick={() => setVolume('0.5')}>Volume 50%</button>
-                <button onClick={() => setVolume('1')}>Volume 100%</button>
-            </div>
-            {/* useFetch */}
-            <h2>AULA UseFetch</h2>
-            <section className="flex">
-                <div>
-                    {produtos.data &&
-                        produtos.data.map(produto => (
-                            <button
-                                style={{ fontSize: '1rem' }}
-                                key={produto.id}
-                                onClick={() => setId(produto.id)}
-                            >
-                                {produto.id}
-                            </button>
-                        ))}
-                </div>
-                <div>
-                    {produto.loading && <div>Carregando...</div>}
-                    {produto.data && (
-                        <ul>
-                            <li>ID: {produto.data.id}</li>
-                            <li>Nome: {produto.data.nome}</li>
-                            <li>Descrição: {produto.data.descricao}</li>
-                            <li>Quantidade: {produto.data.quantidade}</li>
-                            <li>Preço: {produto.data.preco}</li>
-                        </ul>
+                {/* useRef */}
+                <div className="flex">
+                    {playing ? (
+                        <button onClick={() => video.current?.pause()}>
+                            Pause
+                        </button>
+                    ) : (
+                        <button onClick={() => video.current?.play()}>
+                            Play
+                        </button>
                     )}
+                    <button onClick={forward}>+ 2s</button>
+                    <button onClick={() => changePlayBackRate(1)}>1x</button>
+                    <button onClick={() => changePlayBackRate(2)}>2x</button>
+                    <button onClick={pictureInPicture}>PiP</button>
+                    <button onClick={mute}>Mute</button>
                 </div>
-            </section>
-        </div>
+                <video
+                    controls
+                    ref={video}
+                    src={videoSrc}
+                    onPlay={() => setPlaying(true)}
+                    onPause={() => setPlaying(false)}
+                ></video>
+                {/* CustomHook useLocalStorage */}
+                <div className="flex">
+                    {volume}
+                    <button onClick={() => setVolume('0')}>Volume 0</button>
+                    <button onClick={() => setVolume('0.5')}>Volume 50%</button>
+                    <button onClick={() => setVolume('1')}>Volume 100%</button>
+                </div>
+                {/* useFetch */}
+                <h2>AULA UseFetch</h2>
+                <section className="flex">
+                    <div>
+                        {produtos.data &&
+                            produtos.data.map(produto => (
+                                <button
+                                    style={{ fontSize: '1rem' }}
+                                    key={produto.id}
+                                    onClick={() => setId(produto.id)}
+                                >
+                                    {produto.id}
+                                </button>
+                            ))}
+                    </div>
+                    <div>
+                        {produto.loading && <div>Carregando...</div>}
+                        {produto.data && (
+                            <ul>
+                                <li>ID: {produto.data.id}</li>
+                                <li>Nome: {produto.data.nome}</li>
+                                <li>Descrição: {produto.data.descricao}</li>
+                                <li>Quantidade: {produto.data.quantidade}</li>
+                                <li>Preço: {produto.data.preco}</li>
+                            </ul>
+                        )}
+                    </div>
+                </section>
+            </div>
+            {/* AULA USECONTEXT */}
+            <Header />
+        </UiContextProvider>
     );
 }
 
