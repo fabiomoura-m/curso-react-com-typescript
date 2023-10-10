@@ -9,6 +9,7 @@ import useFetch from './hooks/useFetch';
 import { UiContextProvider } from './UiContext';
 import { Header } from './Header';
 import ExercicioUseContext from './exercicios/exerciciouseContext/ExercicioUseContext';
+import Form from './Form';
 
 // tipando caso o button recebesse o total e setTotal
 type ButtonExample = {
@@ -185,6 +186,10 @@ function App() {
             {/* Exercicio useContext */}
             <h1>Exercicio useContext</h1>
             <ExercicioUseContext />
+
+            {/* useReducer */}
+            <h1>UseReducer</h1>
+            <Form />
         </UiContextProvider>
     );
 }
